@@ -24,7 +24,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException
 from amazoncaptcha import AmazonCaptcha
 from bs4 import BeautifulSoup
-import winreg
+# import winreg
 
 ques_base_url = "https://www.amazon.com/ask/questions/asin/"
 

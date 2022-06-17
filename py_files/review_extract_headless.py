@@ -23,7 +23,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException
 from amazoncaptcha import AmazonCaptcha
 from lxml import html
-import winreg,platform,time
+import platform,time
 import random,webbrowser
 
 user_agent_path = "user_agents/user_agents.txt"

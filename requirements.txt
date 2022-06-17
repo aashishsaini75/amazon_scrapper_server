@@ -24,7 +24,6 @@ amazoncaptcha
 
 tendo
 
-winreg
 
 openpyxl
 
