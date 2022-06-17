@@ -79,7 +79,7 @@ def QA(asin_no):
         elif platform.system() == "Windows":
             chromepath = os.path.abspath("drivers/chromedriver.exe")
         elif platform.system() == 'Linux':
-            chromepath = os.path.abspath("/home/ubuntu/aashish_projects/amazon_scrapper_server/drivers/chromedriver_linux")
+            chromepath = os.path.abspath("/home/aashish/amazon_scrapper_server/drivers/chromedriver_linux")
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         try:
