@@ -26,7 +26,7 @@ from lxml import html
 import platform,time
 import random,webbrowser
 
-user_agent_path = "/home/ubuntu/aashish/amazon_scrapper_server/user_agents/user_agents.txt"
+user_agent_path = "/home/aashish/amazon_scrapper_server/user_agents/user_agents.txt"
 
 with open(user_agent_path,"r") as file:
     ua_list=list(str(file.read()).split("\n"))
@@ -149,7 +149,7 @@ def get_rev(asin_no):
         elif platform.system() == "Windows":
             chromepath = os.path.abspath("drivers/chromedriver.exe")
         elif platform.system() == 'Linux':
-            chromepath = os.path.abspath("/home/ubuntu/aashish/amazon_scrapper_server/drivers/chromedriver_linux")
+            chromepath = os.path.abspath("/home/aashish/amazon_scrapper_server/drivers/chromedriver_linux")
         try:
             driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options)
         except Exception as e:
