@@ -17,7 +17,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-import re
+import re,os
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import TimeoutException
@@ -25,8 +25,11 @@ from amazoncaptcha import AmazonCaptcha
 from lxml import html
 import platform,time
 import random,winreg,webbrowser
+from seleniumwire import webdriver
 
-user_agent_path = "user_agents/user_agents.txt"
+base_dir = os.path.join( os.getcwd())
+
+user_agent_path = f"{base_dir}/user_agents/user_agents.txt"
 
 with open(user_agent_path,"r") as file:
     ua_list=list(str(file.read()).split("\n"))
@@ -35,6 +38,20 @@ with open(user_agent_path,"r") as file:
 options = webdriver.ChromeOptions()
 
 options.add_argument(f'user-agent={random.choice(ua_list)}')
+
+USERNAME = "rshorthillstech"
+PASSWORD = "8gfhsYYSra"
+ENDPOINT = "us-pr.oxylabs.io:10000"
+
+def chrome_proxy(user: str, password: str, endpoint: str) -> dict:
+    wire_options = {
+        "proxy": {
+            "http": f"http://{user}:{password}@{endpoint}",
+            "https": f"http://{user}:{password}@{endpoint}",
+        }
+    }
+
+    return wire_options
 
 def get_chrome_version():
     """Reads current Chrome version from registry."""
@@ -125,24 +142,26 @@ def get_rev(asin_no):
     try:
         service = ChromeService(executable_path=ChromeDriverManager(version=get_chrome_version()).install())
 
-        driver = webdriver.Chrome(service=service, options=options)
+        proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+        driver = webdriver.Chrome(service=service, options=options, seleniumwire_options=proxies)
     except:
         chromepath = ""
         driver = ""
         if platform.system() == "Darwin":
-            chromepath = os.path.abspath("drivers/chromedriver")
+            chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver")
         elif platform.system() == "Windows":
-            chromepath = os.path.abspath("drivers/chromedriver.exe")
+            chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver.exe")
         elif platform.system() == 'Linux':
-            chromepath = os.path.abspath("drivers/chromedriver_linux")
+            chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver_linux")
         try:
-            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options)
+            proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options,seleniumwire_options=proxies)
         except Exception as e:
             if "Message: 'chromedriver.exe' executable needs to be in PATH" in str(e):
                 print("Chrome driver path is incorrect, Please check and try again.")
                 try:
                     mixer.init()
-                    mixer.music.load('audio/incorrect_path.mp3')
+                    mixer.music.load(f'{base_dir}/incorrect_path.mp3')
                     mixer.music.play()
                     time.sleep(5)
                 except:
@@ -152,7 +171,7 @@ def get_rev(asin_no):
                     "Chrome driver needs to be updated, Please follow the instructions specified in recently opened PDF file...")
                 try:
                     mixer.init()
-                    mixer.music.load('audio/driver_update.mp3')
+                    mixer.music.load(f'{base_dir}/driver_update.mp3')
                     mixer.music.play()
                     time.sleep(7)
                 except:

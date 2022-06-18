@@ -23,7 +23,7 @@ webdriver_manager
 amazoncaptcha
 
 tendo
-
+selenium-wire
 
 openpyxl
 

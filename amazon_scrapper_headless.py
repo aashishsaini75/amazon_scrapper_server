@@ -37,6 +37,8 @@ from threading import Thread
 from tkinter import *
 import tkinter.messagebox as box
 # import winreg
+from seleniumwire import webdriver
+
 try:
     me = singleton.SingleInstance()
 except:
@@ -58,7 +60,21 @@ exp_rev = 0
 print("Started at " + str(time.ctime()))
 
 scrapper_type = "Headless"
+base_dir = os.path.join( os.getcwd())
 
+USERNAME = "rshorthillstech"
+PASSWORD = "8gfhsYYSra"
+ENDPOINT = "us-pr.oxylabs.io:10000"
+
+def chrome_proxy(user: str, password: str, endpoint: str) -> dict:
+    wire_options = {
+        "proxy": {
+            "http": f"http://{user}:{password}@{endpoint}",
+            "https": f"http://{user}:{password}@{endpoint}",
+        }
+    }
+
+    return wire_options
 def get_chrome_version():
     """Reads current Chrome version from registry."""
     reg_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r'Software\Google\Chrome\BLBeacon')
@@ -70,27 +86,29 @@ try:
 
     service = ChromeService(executable_path=ChromeDriverManager(version=get_chrome_version()).install())
     options.add_argument('--headless')
-    driver = webdriver.Chrome(service=service,options=options)
+    proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+    driver = webdriver.Chrome(service=service, options=options, seleniumwire_options=proxies)
 except:
     chromepath = ""
     driver = ""
     if platform.system() == "Darwin":
-        chromepath = os.path.abspath("drivers/chromedriver")
+        chromepath = os.path.abspath(f"{base_dir}drivers/chromedriver")
     elif platform.system() == "Windows":
-        chromepath = os.path.abspath("drivers/chromedriver.exe")
+        chromepath = os.path.abspath(f"{base_dir}drivers/chromedriver.exe")
     elif platform.system() == 'Linux':
-        chromepath = os.path.abspath("/home/aashish/amazon_scrapper_server/drivers/chromedriver_linux")
+        chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver_linux")
     options = webdriver.ChromeOptions()
     options.add_argument('--headless')
+    proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
 
     try:
-        driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options)
+        driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options,seleniumwire_options=proxies)
     except Exception as e:
         if "Message: 'chromedriver.exe' executable needs to be in PATH" in str(e):
             print("Chrome driver path is incorrect, Please check and try again.")
             try:
                 mixer.init()
-                mixer.music.load('audio/incorrect_path.mp3')
+                mixer.music.load(f'{base_dir}/incorrect_path.mp3')
                 mixer.music.play()
                 time.sleep(5)
             except:
@@ -100,7 +118,7 @@ except:
                 "Chrome driver needs to be updated, Please follow the instructions specified in recently opened PDF file...")
             try:
                 mixer.init()
-                mixer.music.load('audio/driver_update.mp3')
+                mixer.music.load(f'{base_dir}/driver_update.mp3')
                 mixer.music.play()
                 time.sleep(7)
             except:
@@ -235,7 +253,7 @@ for s in sheets:
                 sys.stdout.flush()
                 try:
                     mixer.init()
-                    mixer.music.load('audio/invalid_asin.mp3')
+                    mixer.music.load(f'{base_dir}/invalid_asin.mp3')
                     mixer.music.play()
                     time.sleep(5)
                 except:
@@ -883,7 +901,7 @@ for s in sheets:
                 print("Internet Error : Please check the internet and try again")
                 try:
                     mixer.init()
-                    mixer.music.load('audio/internet_error.mp3')
+                    mixer.music.load(f'{base_dir}/internet_error.mp3')
                     mixer.music.play()
                     time.sleep(3)
                     pymsgbox.alert('Internet is not connected!', 'Connection Error')
@@ -940,7 +958,7 @@ for s in sheets:
                 print(("Expected reviews (" + str(exp_rev) + ")" " != " + "Actual scraped reviews(" + str(act_review) + ")"))
                 for j in range(1):
                     mixer.init()
-                    mixer.music.load('audio/alarm.mp3')
+                    mixer.music.load(f'{base_dir}/alarm.mp3')
                     mixer.music.play()
                     time.sleep(1)
                 dump_data()
@@ -1031,7 +1049,7 @@ print(("\nAll categories scrapped in " + str(round((time.time() - start_time_1) 
 
 try:
     mixer.init()
-    mixer.music.load('audio/completed.mp3')
+    mixer.music.load(f'{base_dir}/completed.mp3')
     mixer.music.play()
     time.sleep(3)
 except:

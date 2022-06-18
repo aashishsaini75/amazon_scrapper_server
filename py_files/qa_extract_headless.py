@@ -25,9 +25,24 @@ from selenium.common.exceptions import TimeoutException
 from amazoncaptcha import AmazonCaptcha
 from bs4 import BeautifulSoup
 # import winreg
+from seleniumwire import webdriver
 
 ques_base_url = "https://www.amazon.com/ask/questions/asin/"
+base_dir = os.path.join( os.getcwd())
 
+USERNAME = "rshorthillstech"
+PASSWORD = "8gfhsYYSra"
+ENDPOINT = "us-pr.oxylabs.io:10000"
+
+def chrome_proxy(user: str, password: str, endpoint: str) -> dict:
+    wire_options = {
+        "proxy": {
+            "http": f"http://{user}:{password}@{endpoint}",
+            "https": f"http://{user}:{password}@{endpoint}",
+        }
+    }
+
+    return wire_options
 def printqaProgressBar(k, max, postText):
     n_bar = 10  # size of progress bar
     j = k / max
@@ -70,20 +85,22 @@ def QA(asin_no):
         options = webdriver.ChromeOptions()
         service = ChromeService(executable_path=ChromeDriverManager(version=get_chrome_version()).install())
         options.add_argument('--headless')
-        driver = webdriver.Chrome(service=service, options=options)
+        proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+        driver = webdriver.Chrome(service=service, options=options, seleniumwire_options=proxies)
     except:
         chromepath = ""
         driver = ""
         if platform.system() == "Darwin":
-            chromepath = os.path.abspath("drivers/chromedriver")
+            chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver")
         elif platform.system() == "Windows":
-            chromepath = os.path.abspath("drivers/chromedriver.exe")
+            chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver.exe")
         elif platform.system() == 'Linux':
-            chromepath = os.path.abspath("/home/aashish/amazon_scrapper_server/drivers/chromedriver_linux")
+            chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver_linux")
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         try:
-            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options)
+            proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options, seleniumwire_options=proxies)
         except Exception as e:
             if "Message: 'chromedriver.exe' executable needs to be in PATH" in str(e):
                 print("Chrome driver path is incorrect, Please check and try again.")
