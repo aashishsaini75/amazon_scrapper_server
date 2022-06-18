@@ -92,9 +92,9 @@ except:
     chromepath = ""
     driver = ""
     if platform.system() == "Darwin":
-        chromepath = os.path.abspath(f"{base_dir}drivers/chromedriver")
+        chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver")
     elif platform.system() == "Windows":
-        chromepath = os.path.abspath(f"{base_dir}drivers/chromedriver.exe")
+        chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver.exe")
     elif platform.system() == 'Linux':
         chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver_linux")
     options = webdriver.ChromeOptions()
