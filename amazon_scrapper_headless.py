@@ -108,7 +108,7 @@ except:
             print("Chrome driver path is incorrect, Please check and try again.")
             try:
                 mixer.init()
-                mixer.music.load(f'{base_dir}/incorrect_path.mp3')
+                mixer.music.load(f'{base_dir}/audio/incorrect_path.mp3')
                 mixer.music.play()
                 time.sleep(5)
             except:
@@ -118,7 +118,7 @@ except:
                 "Chrome driver needs to be updated, Please follow the instructions specified in recently opened PDF file...")
             try:
                 mixer.init()
-                mixer.music.load(f'{base_dir}/driver_update.mp3')
+                mixer.music.load(f'{base_dir}/audio/driver_update.mp3')
                 mixer.music.play()
                 time.sleep(7)
             except:
@@ -253,7 +253,7 @@ for s in sheets:
                 sys.stdout.flush()
                 try:
                     mixer.init()
-                    mixer.music.load(f'{base_dir}/invalid_asin.mp3')
+                    mixer.music.load(f'{base_dir}/audio/invalid_asin.mp3')
                     mixer.music.play()
                     time.sleep(5)
                 except:
@@ -901,7 +901,7 @@ for s in sheets:
                 print("Internet Error : Please check the internet and try again")
                 try:
                     mixer.init()
-                    mixer.music.load(f'{base_dir}/internet_error.mp3')
+                    mixer.music.load(f'{base_dir}/audio/internet_error.mp3')
                     mixer.music.play()
                     time.sleep(3)
                     pymsgbox.alert('Internet is not connected!', 'Connection Error')
@@ -958,7 +958,7 @@ for s in sheets:
                 print(("Expected reviews (" + str(exp_rev) + ")" " != " + "Actual scraped reviews(" + str(act_review) + ")"))
                 for j in range(1):
                     mixer.init()
-                    mixer.music.load(f'{base_dir}/alarm.mp3')
+                    mixer.music.load(f'{base_dir}/audio/alarm.mp3')
                     mixer.music.play()
                     time.sleep(1)
                 dump_data()
@@ -1049,7 +1049,7 @@ print(("\nAll categories scrapped in " + str(round((time.time() - start_time_1) 
 
 try:
     mixer.init()
-    mixer.music.load(f'{base_dir}/completed.mp3')
+    mixer.music.load(f'{base_dir}/audio/completed.mp3')
     mixer.music.play()
     time.sleep(3)
 except:

@@ -24,7 +24,7 @@ from selenium.common.exceptions import TimeoutException
 from amazoncaptcha import AmazonCaptcha
 from lxml import html
 import platform,time
-import random,winreg,webbrowser
+import random,webbrowser
 from seleniumwire import webdriver
 
 base_dir = os.path.join( os.getcwd())
@@ -162,7 +162,7 @@ def get_rev(asin_no):
                 print("Chrome driver path is incorrect, Please check and try again.")
                 try:
                     mixer.init()
-                    mixer.music.load(f'{base_dir}/incorrect_path.mp3')
+                    mixer.music.load(f'{base_dir}/audio/incorrect_path.mp3')
                     mixer.music.play()
                     time.sleep(5)
                 except:
@@ -172,7 +172,7 @@ def get_rev(asin_no):
                     "Chrome driver needs to be updated, Please follow the instructions specified in recently opened PDF file...")
                 try:
                     mixer.init()
-                    mixer.music.load(f'{base_dir}/driver_update.mp3')
+                    mixer.music.load(f'{base_dir}/audio/driver_update.mp3')
                     mixer.music.play()
                     time.sleep(7)
                 except:
