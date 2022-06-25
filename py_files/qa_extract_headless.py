@@ -85,8 +85,8 @@ def QA(asin_no):
         options = webdriver.ChromeOptions()
         service = ChromeService(executable_path=ChromeDriverManager(version=get_chrome_version()).install())
         options.add_argument('--headless')
-        proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
-        driver = webdriver.Chrome(service=service, options=options, seleniumwire_options=proxies)
+        # proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+        driver = webdriver.Chrome(service=service, options=options)
     except:
         chromepath = ""
         driver = ""
@@ -99,8 +99,8 @@ def QA(asin_no):
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         try:
-            proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
-            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options, seleniumwire_options=proxies)
+            # proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options)
         except Exception as e:
             if "Message: 'chromedriver.exe' executable needs to be in PATH" in str(e):
                 print("Chrome driver path is incorrect, Please check and try again.")

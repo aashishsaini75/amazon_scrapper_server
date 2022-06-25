@@ -142,8 +142,8 @@ def get_rev(asin_no):
     global cr_url,options
     try:
         service = ChromeService(executable_path=ChromeDriverManager(version=get_chrome_version()).install())
-        proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
-        driver = webdriver.Chrome(service=service, options=options, seleniumwire_options=proxies)
+        # proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+        driver = webdriver.Chrome(service=service, options=options)
     except:
         chromepath = ""
         driver = ""
@@ -155,8 +155,8 @@ def get_rev(asin_no):
             chromepath = os.path.abspath(f"{base_dir}/drivers/chromedriver_linux")
 
         try:
-            proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
-            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options,seleniumwire_options=proxies)
+            # proxies = chrome_proxy(USERNAME, PASSWORD, ENDPOINT)
+            driver = webdriver.Chrome(executable_path=chromepath, chrome_options=options)
         except Exception as e:
             if "Message: 'chromedriver.exe' executable needs to be in PATH" in str(e):
                 print("Chrome driver path is incorrect, Please check and try again.")
